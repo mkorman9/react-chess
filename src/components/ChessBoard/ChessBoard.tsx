@@ -36,6 +36,7 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
       );
 
       if (view === 'black') {
+        tiles.forEach(row => row.reverse());
         tiles.reverse();
       }
 
