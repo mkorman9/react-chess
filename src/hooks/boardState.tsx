@@ -4,11 +4,16 @@ import {calculateValidMoves} from './validMoves.ts';
 export type ChessColor = 'white' | 'black';
 export type ChessPieceType = 'king' | 'queen' | 'bishop' | 'knight' | 'rook' | 'pawn';
 export type ChessPieceName = `${ChessColor}-${ChessPieceType}`;
+export type ChessMove = {
+  from: string;
+  to: string;
+};
 
 export type BoardStateContextType = {
   pieces: Record<string, ChessPieceName>;
   highlightFields: string[];
   captureFields: string[];
+  moves: ChessMove[];
   movePiece: (from: string, to: string) => boolean;
   highlightValidMoves: (position: string) => void;
   resetHighlight: () => void;
@@ -54,6 +59,7 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
   }));
   const [highlightFields, setHighlightFields] = useState<string[]>([]);
   const [captureFields, setCaptureFields] = useState<string[]>([]);
+  const [moves, setMoves] = useState<ChessMove[]>([]);
 
   const movePiece = (from: string, to: string) => {
     if (from === to) {
@@ -74,6 +80,7 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
     delete piecesTmp[from];
 
     setPieces(piecesTmp);
+    setMoves([...moves, {from, to}]);
     resetHighlight();
 
     return true;
@@ -95,6 +102,7 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
       pieces,
       highlightFields,
       captureFields,
+      moves,
       movePiece,
       highlightValidMoves,
       resetHighlight
