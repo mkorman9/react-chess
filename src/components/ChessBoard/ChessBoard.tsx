@@ -1,13 +1,11 @@
 import React, {useMemo} from 'react';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
-import {useBoardState} from '../../hooks/boardState.tsx';
+import {ChessColor, useBoardState} from '../../hooks/boardState.tsx';
 import ChessField, {ChessFieldColor} from '../ChessField/ChessField.tsx';
 
-type ChessBoardView = 'white' | 'black';
-
 type ChessBoardProps = {
-  view: ChessBoardView
+  view: ChessColor;
 };
 
 const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
@@ -48,13 +46,25 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
   return (<>
     <div className="flex flex-col">
       <DndProvider backend={HTML5Backend}>
-        {tiles.map((row, i) => (
-          <div key={i} className="flex flex-row">
-            {row.map((tile, j) => (
-              <ChessField key={j} id={tile.id} color={tile.color as ChessFieldColor} piece={tile.piece} />
-            ))}
-          </div>
-        ))}
+        <div className="p-4 bg-chessboard-border">
+          {tiles.map((row, i) => (
+            <div key={i} className="flex flex-row justify-center items-center">
+              <span className="mr-4">
+                {row[0].id[1]}
+              </span>
+              {row.map((tile, j) => (
+                <div className="flex flex-col justify-center items-center">
+                  {i === 0 && (<span className="mb-2">{tile.id[0]}</span>)}
+                  <ChessField key={j} id={tile.id} color={tile.color as ChessFieldColor} piece={tile.piece}/>
+                  {i === 7 && (<span className="mt-2">{tile.id[0]}</span>)}
+                </div>
+              ))}
+              <span className="ml-4">
+                {row[0].id[1]}
+              </span>
+            </div>
+          ))}
+        </div>
       </DndProvider>
     </div>
   </>);

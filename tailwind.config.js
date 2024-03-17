@@ -11,7 +11,8 @@ export default {
         'tile-light': '#ffcfa3',
         'tile-dark': '#d48d4e',
         'tile-highlight': '#fff5db',
-        'tile-capture': '#ff4766'
+        'tile-capture': '#ff4766',
+        'chessboard-border': '#8a5138'
       }
     },
   },
