@@ -28,7 +28,7 @@ type ChessPieceDragItem = {
 };
 
 const ChessPiece: React.FC<ChessPieceProps> = ({ piece, position }) => {
-  const {highlightValidMoves, resetHighlight} = useBoardState();
+  const {turn, highlightValidMoves, resetHighlight} = useBoardState();
 
   const [{isDragging}, ref] = useDrag<ChessPieceDropItem, unknown, ChessPieceDragItem>(() => ({
     type: 'piece',
@@ -38,7 +38,10 @@ const ChessPiece: React.FC<ChessPieceProps> = ({ piece, position }) => {
     collect: monitor => ({
       isDragging: monitor.isDragging()
     }),
-  }), []);
+    canDrag: monitor => {
+      return piece.startsWith(turn);
+    }
+  }), [piece, turn]);
 
   useEffect(() => {
     if (isDragging) {

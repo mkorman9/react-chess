@@ -49,9 +49,8 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
         <div className="p-4 bg-chessboard-border">
           {tiles.map((row, i) => (
             <div key={i} className="flex flex-row justify-center items-center">
-              <span className="mr-4">
-                {row[0].id[1]}
-              </span>
+              <span className="mr-2">{row[0].id[1]}</span>
+
               {row.map((tile, j) => (
                 <div className="flex flex-col justify-center items-center">
                   {i === 0 && (<span className="mb-2">{tile.id[0]}</span>)}
@@ -59,9 +58,8 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
                   {i === 7 && (<span className="mt-2">{tile.id[0]}</span>)}
                 </div>
               ))}
-              <span className="ml-4">
-                {row[0].id[1]}
-              </span>
+
+              <span className="ml-2">{row[0].id[1]}</span>
             </div>
           ))}
         </div>

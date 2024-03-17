@@ -14,6 +14,7 @@ export type BoardStateContextType = {
   highlightFields: string[];
   captureFields: string[];
   moves: ChessMove[];
+  turn: ChessColor;
   movePiece: (from: string, to: string) => boolean;
   highlightValidMoves: (position: string) => void;
   resetHighlight: () => void;
@@ -60,6 +61,7 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
   const [highlightFields, setHighlightFields] = useState<string[]>([]);
   const [captureFields, setCaptureFields] = useState<string[]>([]);
   const [moves, setMoves] = useState<ChessMove[]>([]);
+  const [turn, setTurn] = useState<ChessColor>('white');
 
   const movePiece = (from: string, to: string) => {
     if (from === to) {
@@ -83,6 +85,12 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
     setMoves([...moves, {from, to}]);
     resetHighlight();
 
+    if (turn === 'white') {
+      setTurn('black');
+    } else {
+      setTurn('white');
+    }
+
     return true;
   };
 
@@ -103,6 +111,7 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
       highlightFields,
       captureFields,
       moves,
+      turn,
       movePiece,
       highlightValidMoves,
       resetHighlight
