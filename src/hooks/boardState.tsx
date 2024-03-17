@@ -5,8 +5,16 @@ export type ChessColor = 'white' | 'black';
 export type ChessPieceType = 'king' | 'queen' | 'bishop' | 'knight' | 'rook' | 'pawn';
 export type ChessPieceName = `${ChessColor}-${ChessPieceType}`;
 export type ChessMove = {
+  type: 'move',
+  source: ChessPieceType;
   from: string;
   to: string;
+} | {
+  type: 'capture',
+  from: string;
+  to: string;
+  source: ChessPieceType;
+  target: ChessPieceType;
 };
 
 export type BoardStateContextType = {
@@ -78,11 +86,28 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
       return false;
     }
 
+    const target = piecesTmp[to];
+
     piecesTmp[to] = source;
     delete piecesTmp[from];
 
     setPieces(piecesTmp);
-    setMoves([...moves, {from, to}]);
+    if (target) {
+      setMoves([...moves, {
+        from,
+        to,
+        source: (source.split('-')[1] as ChessPieceType),
+        target: (target.split('-')[1] as ChessPieceType),
+        type: 'capture'
+      }]);
+    } else {
+      setMoves([...moves, {
+        from,
+        to,
+        source: (source.split('-')[1] as ChessPieceType),
+        type: 'move'
+      }]);
+    }
     resetHighlight();
 
     if (turn === 'white') {
