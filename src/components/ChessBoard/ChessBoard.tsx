@@ -11,7 +11,7 @@ type ChessBoardProps = {
 };
 
 const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
-  const {pieces, highlightFields} = useBoardState();
+  const {pieces, highlightFields, captureFields} = useBoardState();
 
   const tiles = useMemo(
     () => {
@@ -22,6 +22,9 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
           let color = ((columnNumber + (rowNumber % 2 === 0 ? 0 : 1)) % 2 === 0) ? 'light' : 'dark';
           if (highlightFields.includes(id)) {
             color = 'highlight';
+          }
+          if (captureFields.includes(id)) {
+            color = 'capture';
           }
 
           return {
