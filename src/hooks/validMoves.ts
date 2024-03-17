@@ -1,7 +1,5 @@
 import {ChessColor, ChessPieceName, ChessPieceType} from './boardState.tsx';
-
-const ROWS = ['1', '2', '3', '4', '5', '6', '7', '8'];
-const COLUMNS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+import {COLUMNS, ROWS} from './constants.ts';
 
 export const calculateValidMoves = (source: string, pieces: Record<string, ChessPieceName>) => {
   const highlight: string[] = [];
