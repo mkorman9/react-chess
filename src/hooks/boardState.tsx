@@ -72,6 +72,8 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
     delete piecesTmp[from];
 
     setPieces(piecesTmp);
+    resetHighlight();
+
     return true;
   };
 
