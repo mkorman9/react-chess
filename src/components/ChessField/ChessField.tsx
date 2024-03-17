@@ -27,7 +27,7 @@ const ChessField: React.FC<ChessFieldProps> = ({ id, color, piece }) => {
                   ${color === 'highlight' ? 'bg-tile-highlight' : ''}
                   ${color === 'capture' ? 'bg-tile-capture' : ''}`
     }>
-      {!piece || (<ChessPiece piece={piece} position={id} />)}
+      {piece && (<ChessPiece piece={piece} position={id} />)}
     </div>
   </>);
 };
