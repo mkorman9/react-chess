@@ -38,7 +38,7 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
 
       return tiles;
     },
-    [view, pieces, highlightFields]
+    [view, pieces, highlightFields, captureFields]
   );
 
   return (<>
