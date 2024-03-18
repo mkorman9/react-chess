@@ -73,14 +73,21 @@ const oppositeColor = (color: ChessColor) => {
   return color === 'white' ? 'black' : 'white';
 };
 
-export const BoardStateContext = createContext<BoardStateContextType>({} as BoardStateContextType);
+export const BoardStateContext = createContext<BoardStateContextType>(
+  {} as BoardStateContextType
+);
 
 export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
-  const [pieces, setPieces] = useState<Record<string, ChessPieceName>>(START_PIECES);
-  const [highlightFields, setHighlightFields] = useState<string[]>([]);
-  const [captureFields, setCaptureFields] = useState<string[]>([]);
-  const [moves, setMoves] = useState<ChessMove[]>([]);
-  const [turn, setTurn] = useState<ChessColor>(START_TURN);
+  const [pieces, setPieces] =
+    useState<Record<string, ChessPieceName>>(START_PIECES);
+  const [highlightFields, setHighlightFields] =
+    useState<string[]>([]);
+  const [captureFields, setCaptureFields] =
+    useState<string[]>([]);
+  const [moves, setMoves] =
+    useState<ChessMove[]>([]);
+  const [turn, setTurn] =
+    useState<ChessColor>(START_TURN);
 
   const movePiece = (from: string, to: string) => {
     if (from === to) {

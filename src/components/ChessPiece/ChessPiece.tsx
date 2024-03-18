@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {ChessPieceName, useBoardState} from '../../hooks/boardState.tsx';
 import whiteKing from './pieces/white_king.png';
 import whiteQueen from './pieces/white_queen.png';
@@ -30,18 +30,19 @@ type ChessPieceDragItem = {
 const ChessPiece: React.FC<ChessPieceProps> = ({ piece, position }) => {
   const {turn, highlightValidMoves, resetHighlight} = useBoardState();
 
-  const [{isDragging}, ref] = useDrag<ChessPieceDropItem, unknown, ChessPieceDragItem>(() => ({
-    type: 'piece',
-    item: {
-      from: position
-    },
-    collect: monitor => ({
-      isDragging: monitor.isDragging()
-    }),
-    canDrag: monitor => {
-      return piece.startsWith(turn);
-    }
-  }), [piece, turn]);
+  const [{isDragging}, ref] =
+    useDrag<ChessPieceDropItem, unknown, ChessPieceDragItem>(() => ({
+      type: 'piece',
+      item: {
+        from: position
+      },
+      collect: monitor => ({
+        isDragging: monitor.isDragging()
+      }),
+      canDrag: monitor => {
+        return piece.startsWith(turn);
+      }
+    }), [piece, turn]);
 
   useEffect(() => {
     if (isDragging) {

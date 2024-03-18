@@ -17,17 +17,20 @@ export type ChessFieldDropProps = {
   isHovering: boolean;
 };
 
-const ChessField: React.FC<ChessFieldProps> = ({ id, color, effects, piece }) => {
+const ChessField: React.FC<ChessFieldProps> = (
+  { id, color, effects, piece }
+) => {
   const {movePiece} = useBoardState();
-  const [{isHovering}, ref] = useDrop<ChessPieceDropItem, unknown, ChessFieldDropProps>(() => ({
-    accept: 'piece',
-    collect: monitor => ({
-      isHovering: monitor.isOver()
-    }),
-    drop: item => {
-      movePiece(item.from, id);
-    }
-  }), [movePiece]);
+  const [{isHovering}, ref] =
+    useDrop<ChessPieceDropItem, unknown, ChessFieldDropProps>(() => ({
+      accept: 'piece',
+      collect: monitor => ({
+        isHovering: monitor.isOver()
+      }),
+      drop: item => {
+        movePiece(item.from, id);
+      }
+    }), [movePiece]);
 
   return (<>
     <div ref={ref} className={`flex w-16 h-16 justify-center items-center 

@@ -11,7 +11,8 @@ type ChessBoardProps = {
 };
 
 const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
-  const {pieces, highlightFields, captureFields} = useBoardState();
+  const {pieces, highlightFields, captureFields} =
+    useBoardState();
 
   const tiles = useMemo(
     () => {
@@ -45,9 +46,11 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
       <DndProvider backend={HTML5Backend}>
         <div className="flex flex-col p-4">
           <div className="flex pl-12">
-            {(view === 'white' ? COLUMNS : [...COLUMNS].reverse()).map((columnId, columnKey) => (
-              <span key={columnKey} className="w-16">{columnId}</span>
-            ))}
+            {(view === 'white' ? COLUMNS : [...COLUMNS].reverse()).map(
+              (columnId, columnKey) => (
+                <span key={columnKey} className="w-16">{columnId}</span>
+              )
+            )}
           </div>
           <div>
             {tiles.map((row, i) => (
@@ -69,9 +72,11 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
             ))}
           </div>
           <div className="flex pl-12">
-            {(view === 'white' ? COLUMNS : [...COLUMNS].reverse()).map((columnId, columnKey) => (
-              <span key={columnKey} className="w-16">{columnId}</span>
-            ))}
+            {(view === 'white' ? COLUMNS : [...COLUMNS].reverse()).map(
+              (columnId, columnKey) => (
+                <span key={columnKey} className="w-16">{columnId}</span>
+              )
+            )}
           </div>
         </div>
       </DndProvider>
