@@ -45,17 +45,10 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
     <div className="flex bg-chessboard-border gap-4">
       <DndProvider backend={HTML5Backend}>
         <div className="flex flex-col p-4">
-          <div className="flex pl-12">
-            {(view === 'white' ? COLUMNS : [...COLUMNS].reverse()).map(
-              (columnId, columnKey) => (
-                <span key={columnKey} className="w-16">{columnId}</span>
-              )
-            )}
-          </div>
           <div>
             {tiles.map((row, i) => (
               <div key={i} className="flex flex-row justify-center items-center">
-                <span className="mr-2">{row[0].id[1]}</span>
+                <span className="w-4">{row[0].id[1]}</span>
 
                 {row.map((tile, j) => (
                   <ChessField
@@ -66,12 +59,11 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
                     piece={tile.piece}
                   />
                 ))}
-
-                <span className="ml-2">{row[0].id[1]}</span>
               </div>
             ))}
           </div>
-          <div className="flex pl-12">
+          <div className="flex justify-center items-center">
+            <span className="w-16 ml-1"></span>
             {(view === 'white' ? COLUMNS : [...COLUMNS].reverse()).map(
               (columnId, columnKey) => (
                 <span key={columnKey} className="w-16">{columnId}</span>
