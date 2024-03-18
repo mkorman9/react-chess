@@ -41,7 +41,7 @@ const ChessBoard: React.FC<ChessBoardProps> = ({view}) => {
   );
 
   return (<>
-    <div className="flex bg-chessboard-border gap-8">
+    <div className="flex bg-chessboard-border gap-4">
       <DndProvider backend={HTML5Backend}>
         <div className="flex flex-col p-4">
           <div className="flex pl-12">

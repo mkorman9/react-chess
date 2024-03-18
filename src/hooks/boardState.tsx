@@ -5,12 +5,14 @@ export type ChessColor = 'white' | 'black';
 export type ChessPieceType = 'king' | 'queen' | 'bishop' | 'knight' | 'rook' | 'pawn';
 export type ChessPieceName = `${ChessColor}-${ChessPieceType}`;
 export type ChessMove = {
-  type: 'move',
+  type: 'move';
+  color: ChessColor;
   source: ChessPieceType;
   from: string;
   to: string;
 } | {
-  type: 'capture',
+  type: 'capture';
+  color: ChessColor;
   from: string;
   to: string;
   source: ChessPieceType;
@@ -27,6 +29,7 @@ export type BoardStateContextType = {
   highlightValidMoves: (position: string) => void;
   resetHighlight: () => void;
   resetBoard: () => void;
+  revertMove: () => void;
 };
 
 const START_PIECES: Record<string, ChessPieceName> = {
@@ -66,6 +69,10 @@ const START_PIECES: Record<string, ChessPieceName> = {
 };
 const START_TURN: ChessColor = 'white';
 
+const oppositeColor = (color: ChessColor) => {
+  return color === 'white' ? 'black' : 'white';
+};
+
 export const BoardStateContext = createContext<BoardStateContextType>({} as BoardStateContextType);
 
 export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
@@ -100,6 +107,7 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
       setMoves([...moves, {
         from,
         to,
+        color: turn,
         source: (source.split('-')[1] as ChessPieceType),
         target: (target.split('-')[1] as ChessPieceType),
         type: 'capture'
@@ -108,17 +116,14 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
       setMoves([...moves, {
         from,
         to,
+        color: turn,
         source: (source.split('-')[1] as ChessPieceType),
         type: 'move'
       }]);
     }
     resetHighlight();
 
-    if (turn === 'white') {
-      setTurn('black');
-    } else {
-      setTurn('white');
-    }
+    setTurn(oppositeColor(turn));
 
     return true;
   };
@@ -141,6 +146,27 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
     setTurn(START_TURN);
   };
 
+  const revertMove = () => {
+    if (!moves.length) {
+      return;
+    }
+
+    const piecesTmp = {...pieces};
+
+    const move = moves[moves.length - 1];
+    if (move.type === 'move') {
+      piecesTmp[move.from] = `${move.color}-${move.source}`;
+      delete piecesTmp[move.to];
+    } else if (move.type === 'capture') {
+      piecesTmp[move.from] = `${move.color}-${move.source}`;
+      piecesTmp[move.to] = `${oppositeColor(move.color)}-${move.target}`;
+    }
+
+    setPieces(piecesTmp);
+    setMoves([...moves].splice(moves.length - 1));
+    setTurn(oppositeColor(turn));
+  };
+
   return (
     <BoardStateContext.Provider value={{
       pieces,
@@ -151,7 +177,8 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
       movePiece,
       highlightValidMoves,
       resetHighlight,
-      resetBoard
+      resetBoard,
+      revertMove
     }}>
       {children}
     </BoardStateContext.Provider>
