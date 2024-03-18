@@ -170,7 +170,7 @@ export const BoardState: React.FC<React.PropsWithChildren> = ({children}) => {
     }
 
     setPieces(piecesTmp);
-    setMoves([...moves].splice(moves.length - 1));
+    setMoves([...moves].slice(0, -1));
     setTurn(oppositeColor(turn));
   };
 
